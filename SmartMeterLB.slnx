@@ -1,0 +1,12 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="DSLib/DSLib.vcxproj" Id="76a9d6aa-f40a-407e-913c-85302636d87c" />
+  <Project Path="DSTests/DSTests.vcxproj" Id="868caf7b-c072-42f0-b455-a8847ab14ecb" />
+  <Project Path="LoadBalancer/LoadBalancer.vcxproj" Id="2bfe4e33-5194-40e1-96bd-3a423c97c2eb" />
+  <Project Path="NetLib/NetLib.vcxproj" Id="ff1de579-6f72-4bdf-b66c-cc6dbc3df291" />
+  <Project Path="User/User.vcxproj" Id="e0434c21-7a8d-42d6-a5ee-c6c1643f4c97" />
+  <Project Path="Worker/Worker.vcxproj" Id="207a5e84-b000-41d3-a768-83c5d218e7cd" />
+</Solution>
