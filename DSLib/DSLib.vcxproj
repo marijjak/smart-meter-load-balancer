@@ -153,6 +153,12 @@
   <ItemGroup>
     <ClCompile Include="DSLib.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="DynArray.h" />
+    <ClInclude Include="FifoList.h" />
+    <ClInclude Include="HashMap.h" />
+    <ClInclude Include="RingBuffer.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

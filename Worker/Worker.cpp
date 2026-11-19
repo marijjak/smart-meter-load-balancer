@@ -1,20 +1,54 @@
-// Worker.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
+#include "NetLib.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
-#include <iostream>
+// PRIVREMENI TEST NetLib-a: javi se LB-u i posalji jedno ocitavanje.
+int main(int argc, char* argv[]) {
+    uint32_t id = (argc > 1) ? (uint32_t)atoi(argv[1]) : 0;
 
-int main()
-{
-    std::cout << "Hello World!\n";
+    if (!netInit()) {
+        printf("WSAStartup nije uspeo\n");
+        return 1;
+    }
+
+    SOCKET s = netConnect("127.0.0.1", LB_WORKER_PORT);
+    if (s == INVALID_SOCKET) {
+        printf("Ne mogu da se povezem na LB. Da li je LB pokrenut?\n");
+        netCleanup();
+        return 1;
+    }
+
+    MsgHeader h;
+    char* body;
+
+    // 1) Prijava
+    RegisterBody rb = { id };
+    sendMsg(s, MSG_REGISTER, 0, 1, &rb, sizeof(rb));
+    if (recvMsg(s, &h, &body) == NET_OK) {
+        printf("Odgovor na prijavu: %s\n", msgTypeName(h.type));
+        freeBody(body);
+    }
+
+    // 2) Jedno ocitavanje
+    Reading r;
+    r.meterId = 13;
+    r.timestamp = (int64_t)time(NULL);
+    r.kwh = 1.25f;
+    printf("Saljem: brojilo=%u  vreme=%lld  kWh=%.3f\n",
+        r.meterId, (long long)r.timestamp, r.kwh);
+    sendMsg(s, MSG_WRITE, 0, 2, &r, sizeof(r));
+
+    if (recvMsg(s, &h, &body) == NET_OK) {
+        AckBody* a = (AckBody*)body;
+        printf("Odgovor na upis: %s, status=%u, requestId=%u\n",
+            msgTypeName(h.type), a->status, h.requestId);
+        freeBody(body);
+    }
+
+    closesocket(s);
+    netCleanup();
+    printf("Pritisni Enter za kraj...\n");
+    getchar();
+    return 0;
 }
-
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file

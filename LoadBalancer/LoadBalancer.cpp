@@ -1,20 +1,54 @@
-// LoadBalancer.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
+#include "NetLib.h"
+#include <stdio.h>
 
-#include <iostream>
+// PRIVREMENI TEST NetLib-a: prima jednog Worker-a i odgovara na REGISTER i WRITE.
+int main() {
+    if (!netInit()) {
+        printf("WSAStartup nije uspeo\n");
+        return 1;
+    }
 
-int main()
-{
-    std::cout << "Hello World!\n";
+    SOCKET listenSock = netListen(LB_WORKER_PORT);
+    if (listenSock == INVALID_SOCKET) {
+        printf("netListen nije uspeo\n");
+        netCleanup();
+        return 1;
+    }
+    printf("LB ceka Worker-a na portu %d...\n", LB_WORKER_PORT);
+
+    SOCKET w = accept(listenSock, NULL, NULL);
+    closesocket(listenSock);
+    if (w == INVALID_SOCKET) {
+        printf("accept nije uspeo\n");
+        netCleanup();
+        return 1;
+    }
+
+    MsgHeader h;
+    char* body;
+    while (recvMsg(w, &h, &body) == NET_OK) {
+        printf("Primljeno: %s (requestId=%u, duzina=%u)\n",
+            msgTypeName(h.type), h.requestId, h.length);
+
+        if (h.type == MSG_REGISTER) {
+            RegisterBody* rb = (RegisterBody*)body;
+            printf("  Worker id = %u\n", rb->workerId);
+            sendMsg(w, MSG_REGISTER_OK, 0, h.requestId, NULL, 0);
+        }
+        else if (h.type == MSG_WRITE) {
+            Reading* r = (Reading*)body;
+            printf("  brojilo=%u  vreme=%lld  kWh=%.3f\n",
+                r->meterId, (long long)r->timestamp, r->kwh);
+            AckBody ack = { 0 };
+            sendMsg(w, MSG_ACK, 0, h.requestId, &ack, sizeof(ack));
+        }
+        freeBody(body);
+    }
+
+    printf("Worker se odvezao.\n");
+    closesocket(w);
+    netCleanup();
+    printf("Pritisni Enter za kraj...\n");
+    getchar();
+    return 0;
 }
-
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
