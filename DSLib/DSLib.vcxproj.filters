@@ -18,6 +18,12 @@
     <ClCompile Include="DSLib.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="DynArray.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="HashMap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DynArray.h">

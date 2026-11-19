@@ -147,7 +147,11 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="LbMsg.cpp" />
     <ClCompile Include="LoadBalancer.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Dogovor.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DSLib\DSLib.vcxproj">

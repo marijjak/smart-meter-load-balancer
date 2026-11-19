@@ -144,6 +144,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="DSTests.cpp" />
+    <ClCompile Include="TestDynArray.cpp" />
+    <ClCompile Include="TestHashMap.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="TestUtil.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DSLib\DSLib.vcxproj">

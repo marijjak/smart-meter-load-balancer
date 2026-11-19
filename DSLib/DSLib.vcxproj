@@ -152,6 +152,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="DSLib.cpp" />
+    <ClCompile Include="DynArray.cpp" />
+    <ClCompile Include="HashMap.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DynArray.h" />
