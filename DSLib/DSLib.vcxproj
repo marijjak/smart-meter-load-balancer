@@ -154,6 +154,7 @@
     <ClCompile Include="DSLib.cpp" />
     <ClCompile Include="DynArray.cpp" />
     <ClCompile Include="HashMap.cpp" />
+    <ClCompile Include="RingBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DynArray.h" />

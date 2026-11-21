@@ -13,6 +13,7 @@ int main() {
 
     testDynArray();
     testHashMap();
+    testRingBuffer();
 
     printf("\nUkupno provera: %d, neuspelih: %d\n", g_checks, g_failed);
     printf(g_failed == 0 ? "SVI TESTOVI SU PROSLI\n" : "IMA GRESAKA\n");

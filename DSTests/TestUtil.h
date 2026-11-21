@@ -16,3 +16,4 @@ extern int g_failed;   // neuspelih provera
 // Testovi pojedinih struktura (svaka u svom .cpp fajlu).
 void testDynArray(void);
 void testHashMap(void);
+void testRingBuffer(void);
