@@ -147,7 +147,11 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Storage.cpp" />
     <ClCompile Include="Worker.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Storage.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DSLib\DSLib.vcxproj">
