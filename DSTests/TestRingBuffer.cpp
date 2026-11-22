@@ -89,14 +89,19 @@ static void testStopAndWake(void) {
     rbInit(&rb, 0);
     CHECK(rb.capacity == 16, "rbInit(0) daje 16 mesta");
     HANDLE stop = CreateEvent(NULL, TRUE, FALSE, NULL);
+    if (stop == NULL) {
+        CHECK(false, "CreateEvent za stopEvent");
+        rbFree(&rb);
+        return;
+    }
 
     // 1) Nit ceka na praznom redu, druga nit stavi element: mora da se probudi.
     PopArgs a = { &rb, stop, NULL };
     HANDLE t = CreateThread(NULL, 0, popThread, &a, 0, NULL);
     Sleep(50);
     rbPush(&rb, itemFor(42));
-    bool woke = WaitForSingleObject(t, 2000) == WAIT_OBJECT_0;
-    CloseHandle(t);
+    bool woke = t != NULL && WaitForSingleObject(t, 2000) == WAIT_OBJECT_0;
+    if (t != NULL) CloseHandle(t);
     CHECK(woke && a.result == itemFor(42), "rbPush budi nit koja ceka u rbPop");
 
     // 2) Nit ceka na praznom redu, postavi se stopEvent: rbPop vraca NULL.
@@ -104,8 +109,8 @@ static void testStopAndWake(void) {
     t = CreateThread(NULL, 0, popThread, &a, 0, NULL);
     Sleep(50);
     SetEvent(stop);
-    woke = WaitForSingleObject(t, 2000) == WAIT_OBJECT_0;
-    CloseHandle(t);
+    woke = t != NULL && WaitForSingleObject(t, 2000) == WAIT_OBJECT_0;
+    if (t != NULL) CloseHandle(t);
     CHECK(woke && a.result == NULL, "stopEvent budi nit u rbPop, vraca NULL");
 
     // 3) stopEvent postavljen, a u redu ima elemenata: gasenje ima prednost,

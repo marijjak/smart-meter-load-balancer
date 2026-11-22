@@ -149,9 +149,14 @@
   <ItemGroup>
     <ClCompile Include="LbMsg.cpp" />
     <ClCompile Include="LoadBalancer.cpp" />
+    <ClCompile Include="MeterMap.cpp" />
+    <ClCompile Include="PendingStub.cpp" />
+    <ClCompile Include="Workers.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dogovor.h" />
+    <ClInclude Include="MeterMap.h" />
+    <ClInclude Include="Workers.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DSLib\DSLib.vcxproj">
