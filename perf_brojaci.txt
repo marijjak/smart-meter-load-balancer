@@ -1,0 +1,6 @@
+\Process(LoadBalancer)\% Processor Time
+\Process(LoadBalancer)\Private Bytes
+\Process(LoadBalancer)\Thread Count
+\Process(LoadBalancer)\Handle Count
+\TCPv4\Segments/sec
+\Processor(_Total)\% Processor Time
