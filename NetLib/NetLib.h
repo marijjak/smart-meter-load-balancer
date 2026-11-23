@@ -20,8 +20,13 @@ void netCleanup();
 
 // Otvara soket koji slusa na datom portu. Vraca INVALID_SOCKET pri gresci.
 SOCKET netListen(uint16_t port);
-// Povezuje se na ip:port. Vraca INVALID_SOCKET pri gresci.
+// Povezuje se na ip:port (sa ukljucenim TCP_NODELAY). Vraca INVALID_SOCKET pri gresci.
 SOCKET netConnect(const char* ip, uint16_t port);
+
+// Iskljuci Nagle-ov algoritam (TCP_NODELAY): male poruke idu odmah, bez cekanja
+// da se skupi vise podataka. Bez ovoga jedan zahtev moze da kasni 40-200 ms.
+// Poziva se i za sokete dobijene sa accept. Vraca false pri gresci.
+bool netSetNoDelay(SOCKET s);
 
 // Prima tacno len bajtova (vrti petlju dok ne primi sve).
 int recvAll(SOCKET s, char* buf, int len);

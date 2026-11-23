@@ -49,7 +49,13 @@ SOCKET netConnect(const char* ip, uint16_t port) {
         closesocket(s);
         return INVALID_SOCKET;
     }
+    netSetNoDelay(s);
     return s;
+}
+
+bool netSetNoDelay(SOCKET s) {
+    BOOL on = TRUE;
+    return setsockopt(s, IPPROTO_TCP, TCP_NODELAY, (const char*)&on, sizeof(on)) == 0;
 }
 
 // ---------- Slanje i prijem tacnog broja bajtova ----------

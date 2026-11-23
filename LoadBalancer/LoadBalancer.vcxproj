@@ -150,12 +150,15 @@
     <ClCompile Include="LbMsg.cpp" />
     <ClCompile Include="LoadBalancer.cpp" />
     <ClCompile Include="MeterMap.cpp" />
-    <ClCompile Include="PendingStub.cpp" />
+    <ClCompile Include="Pending.cpp" />
+    <ClCompile Include="Users.cpp" />
     <ClCompile Include="Workers.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dogovor.h" />
     <ClInclude Include="MeterMap.h" />
+    <ClInclude Include="Pending.h" />
+    <ClInclude Include="Users.h" />
     <ClInclude Include="Workers.h" />
   </ItemGroup>
   <ItemGroup>
